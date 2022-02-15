@@ -1,0 +1,26 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: pubsub
+  namespace: crud-app
+spec:
+  type: pubsub.redis
+  version: v1
+  metadata:
+  - name: redisHost
+    value: redis-master.crud-app.svc.cluster.local:6379
+  - name: redisPassword
+    secretKeyRef:
+      name: redis
+      key: redis-password
+  - name: allowedTopics
+    value: "todos"
+  - name: publishingScopes
+    value: "crud-app=todos"
+  - name: subscriptionScopes
+    value: "crud-app=;timeline-app=todos"
+  # # scopes??
+  # scopes:
+  # - crud-app
+  # - timeline-app
+  

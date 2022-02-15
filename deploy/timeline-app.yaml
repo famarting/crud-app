@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timeline-app
+spec:
+  selector:
+    matchLabels:
+      app: timeline-app
+  template:
+    metadata:
+      labels:
+        app: timeline-app
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "timeline-app"
+        dapr.io/app-port: "8080"
+        dapr.io/config: dapr-crud-app
+        dapr.io/sidecar-listen-addresses: "0.0.0.0"
+    spec:
+      containers:
+      - name: timeline-app
+        image: quay.io/famargon/timeline-425ba1faafe2b25bc72ab977a38bf76c:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: timeline-app
+spec:
+  selector:
+    app: timeline-app
+  type: ClusterIP
+  ports:
+  - name: http
+    port:  8080
+    targetPort:  8080
+

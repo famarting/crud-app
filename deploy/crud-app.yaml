@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crud-app
+spec:
+  selector:
+    matchLabels:
+      app: crud-app
+  template:
+    metadata:
+      labels:
+        app: crud-app
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "crud-app"
+        dapr.io/app-port: "8080"
+        dapr.io/config: dapr-crud-app
+        dapr.io/sidecar-listen-addresses: "0.0.0.0"
+    spec:
+      containers:
+      - name: crud-app
+        image: quay.io/famargon/cmd-33d858975fa44bf7c8689c4f38db36f1:latest
+        imagePullPolicy: Always
+        args:
+          - "serve"
+          - "-connStr"
+          - "dapr"
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: crud-app
+spec:
+  selector:
+    app: crud-app
+  type: ClusterIP
+  ports:
+  - name: http
+    port:  8080
+    targetPort:  8080
+
