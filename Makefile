@@ -1,5 +1,5 @@
 
-KO_DOCKER_REPO=quay.io/famargon
+export KO_DOCKER_REPO=quay.io/famargon
 
 build:
 	go build -o ./bin/app ./cmd/app.go

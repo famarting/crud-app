@@ -46,7 +46,7 @@ func (s *DaprStorage) Create(todo *todos.Todo) error {
 		return err
 	}
 
-	err = s.newDaprClient().PublishEvent(context.Background(), pubsubName, pubsubTopic, todo)
+	err = s.publishEvent(todo)
 	if err != nil {
 		return err
 	}
@@ -81,7 +81,7 @@ func (s *DaprStorage) Update(todo *todos.Todo) error {
 		return err
 	}
 
-	err = s.newDaprClient().PublishEvent(context.Background(), pubsubName, pubsubTopic, todo)
+	err = s.publishEvent(todo)
 	if err != nil {
 		return err
 	}
@@ -116,13 +116,16 @@ func (s *DaprStorage) Delete(todo *todos.Todo) error {
 		return err
 	}
 
-	// TODO send deleted flag
-	err = s.newDaprClient().PublishEvent(context.Background(), pubsubName, pubsubTopic, todo)
+	err = s.publishEvent(todo)
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func (s *DaprStorage) publishEvent(t *todos.Todo) error {
+	return s.newDaprClient().PublishEvent(context.Background(), pubsubName, pubsubTopic, t, dapr.PublishEventWithMetadata(map[string]string{"rawPayload": "true"}))
 }
 
 func (s *DaprStorage) ListAll() ([]*todos.Todo, error) {

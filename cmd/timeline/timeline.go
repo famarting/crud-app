@@ -43,20 +43,26 @@ func main() {
 
 		event := cloudevents.NewEvent()
 
-		err := json.Unmarshal(bodyBytes, &event)
-		if err != nil {
-			fmt.Println(err)
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-
 		var todo todos.Todo
 
-		err = json.Unmarshal(event.Data(), &todo)
+		err := json.Unmarshal(bodyBytes, &event)
 		if err != nil {
-			fmt.Println(err)
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
+			// is it a rawPayload or a binary cloudevent
+			err = json.Unmarshal(bodyBytes, &todo)
+			if err != nil {
+				fmt.Println(err)
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
+			}
+		} else {
+			// it's an structured cloudevent
+
+			err = json.Unmarshal(event.Data(), &todo)
+			if err != nil {
+				fmt.Println(err)
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
+			}
 		}
 
 		tl.Handle(todo)
