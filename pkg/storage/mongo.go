@@ -3,7 +3,7 @@ package storage
 import (
 	"context"
 
-	"github.com/famartinrh/crud-app/pkg/todos"
+	"github.com/famarting/crud-app/pkg/todos"
 	"github.com/google/uuid"
 	"github.com/kamva/mgm/v3"
 	"go.mongodb.org/mongo-driver/bson"

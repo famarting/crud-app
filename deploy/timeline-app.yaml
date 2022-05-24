@@ -20,12 +20,12 @@ spec:
     spec:
       containers:
       - name: timeline-app
-        image: quay.io/famargon/timeline-425ba1faafe2b25bc72ab977a38bf76c:latest
+        image: docker.io/famargon/timeline-817bcff8f93d81a39bbda2d411cf379f:latest
         imagePullPolicy: Always
         resources:
           limits:
             memory: "128Mi"
-            cpu: "500m"
+            cpu: "100m"
         ports:
         - containerPort: 8080
 

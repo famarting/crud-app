@@ -8,7 +8,7 @@ spec:
   tracing:
     samplingRate: "1"
     zipkin:
-      endpointAddress: "http://zipkin.crud-app.svc.cluster.local:9411/api/v2/spans"
+      endpointAddress: "http://zipkin:9411/api/v2/spans"
   mtls:
     allowedClockSkew: 15m
     enabled: true

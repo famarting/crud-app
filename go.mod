@@ -1,4 +1,4 @@
-module github.com/famartinrh/crud-app
+module github.com/famarting/crud-app
 
 go 1.16
 

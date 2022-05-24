@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: crud-app
-        image: quay.io/famargon/cmd-33d858975fa44bf7c8689c4f38db36f1:latest
+        image: docker.io/famargon/cmd-ccb721d992a9dd6158bf73b1f1bc6efb:latest
         imagePullPolicy: Always
         args:
           - "serve"
@@ -29,7 +29,7 @@ spec:
         resources:
           limits:
             memory: "128Mi"
-            cpu: "500m"
+            cpu: "100m"
         ports:
         - containerPort: 8080
 

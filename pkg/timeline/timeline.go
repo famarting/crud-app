@@ -1,6 +1,6 @@
 package timeline
 
-import "github.com/famartinrh/crud-app/pkg/todos"
+import "github.com/famarting/crud-app/pkg/todos"
 
 type Timeline interface {
 	Timeline() []string

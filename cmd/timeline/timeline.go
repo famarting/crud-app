@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/famartinrh/crud-app/pkg/timeline"
-	"github.com/famartinrh/crud-app/pkg/todos"
+	"github.com/famarting/crud-app/pkg/timeline"
+	"github.com/famarting/crud-app/pkg/todos"
 	"github.com/gin-gonic/gin"
 
 	cloudevents "github.com/cloudevents/sdk-go/v2"

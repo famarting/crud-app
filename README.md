@@ -6,6 +6,7 @@
 skind start
 dapr init -k
 kubectl create namespace crud-app
+make deploy-redis deploy-zipkin
 kubectl apply -f .dapr/configuration.yaml
 kubectl apply -f .dapr/components
 kubectl apply -f deploy

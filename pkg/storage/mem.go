@@ -1,7 +1,7 @@
 package storage
 
 import (
-	"github.com/famartinrh/crud-app/pkg/todos"
+	"github.com/famarting/crud-app/pkg/todos"
 	"github.com/google/uuid"
 )
 

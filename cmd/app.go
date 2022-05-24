@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/famartinrh/crud-app/pkg/server"
-	"github.com/famartinrh/crud-app/pkg/storage"
+	"github.com/famarting/crud-app/pkg/server"
+	"github.com/famarting/crud-app/pkg/storage"
 	"github.com/peterbourgon/ff/v3/ffcli"
 )
 

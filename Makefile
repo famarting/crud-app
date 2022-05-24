@@ -1,5 +1,5 @@
 
-export KO_DOCKER_REPO=quay.io/famargon
+export KO_DOCKER_REPO=docker.io/famargon
 
 build:
 	go build -o ./bin/app ./cmd/app.go
@@ -22,7 +22,25 @@ run-mongo:
 dapr-run:
 	dapr run --app-id crud-app --app-port 8080 --dapr-http-port 3500 ./bin/app serve -connStr dapr
 
-setup-zipkin:
+setup-zipkin: deploy-zipkin
+	skind expose zipkin
+
+deploy-zipkin:
 	kubectl create deployment zipkin --image openzipkin/zipkin
 	kubectl expose deployment zipkin --type ClusterIP --port 9411
-	skind expose zipkin
+
+deploy-redis:
+	helm install redis bitnami/redis -n crud-app
+
+.PHONY: deploy
+deploy:
+	kubectl create namespace crud-app | true
+	$(MAKE) deploy-redis
+	kubectl apply -f .dapr/configuration.yaml -n crud-app
+	kubectl apply -f .dapr/components -n crud-app
+	kubectl apply -f deploy -n crud-app
+
+apply:
+	kubectl apply -f .dapr/configuration.yaml -n crud-app
+	kubectl apply -f .dapr/components -n crud-app
+	kubectl apply -f deploy -n crud-app

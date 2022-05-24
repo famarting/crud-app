@@ -1,13 +1,14 @@
 package server
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"strconv"
 	"time"
 
-	s "github.com/famartinrh/crud-app/pkg/storage"
-	"github.com/famartinrh/crud-app/pkg/todos"
+	s "github.com/famarting/crud-app/pkg/storage"
+	"github.com/famarting/crud-app/pkg/todos"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,6 +18,8 @@ type Server struct {
 }
 
 func (server *Server) Start() {
+
+	go generateLoad(context.TODO(), server)
 
 	engine := gin.Default()
 
@@ -89,4 +92,26 @@ func (server *Server) Start() {
 
 	engine.Run("0.0.0.0:" + strconv.Itoa(server.Port))
 
+}
+
+func generateLoad(ctx context.Context, server *Server) {
+	ticker := time.NewTicker(30 * time.Second)
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case <-ticker.C:
+			fmt.Println("generating load")
+			to := &todos.Todo{
+				Text: "foo",
+			}
+			to.CreatedAt = time.Now()
+			to.UpdatedAt = time.Now()
+			err := server.Storage.Create(to)
+			if err != nil {
+				fmt.Println(err)
+			}
+		}
+	}
 }

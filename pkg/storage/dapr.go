@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	dapr "github.com/dapr/go-sdk/client"
-	"github.com/famartinrh/crud-app/pkg/todos"
+	"github.com/famarting/crud-app/pkg/todos"
 	"github.com/google/uuid"
 )
 

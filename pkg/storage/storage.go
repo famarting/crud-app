@@ -1,6 +1,6 @@
 package storage
 
-import "github.com/famartinrh/crud-app/pkg/todos"
+import "github.com/famarting/crud-app/pkg/todos"
 
 type TodosStorage interface {
 	Create(todo *todos.Todo) error
