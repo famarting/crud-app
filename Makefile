@@ -7,6 +7,7 @@ build:
 push:
 	ko publish ./cmd
 	ko publish ./cmd/timeline
+	ko publish ./cmd/datagen
 
 rollout:
 	kubectl delete pod -l app=crud-app
@@ -30,7 +31,7 @@ deploy-zipkin:
 	kubectl expose deployment zipkin --type ClusterIP --port 9411
 
 deploy-redis:
-	helm install redis bitnami/redis -n crud-app
+	helm upgrade --install redis bitnami/redis -n crud-app
 
 .PHONY: deploy
 deploy:

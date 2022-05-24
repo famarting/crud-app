@@ -20,3 +20,4 @@ spec:
       key: redis-password
 scopes:
 - crud-app
+- datagen-app

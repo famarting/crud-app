@@ -1,0 +1,26 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: datagen-app
+spec:
+  selector:
+    matchLabels:
+      app: datagen-app
+  template:
+    metadata:
+      labels:
+        app: datagen-app
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "datagen-app"
+        dapr.io/config: dapr-crud-app
+    spec:
+      containers:
+      - name: datagen-app
+        image: docker.io/famargon/datagen-9b8bcb9dfb1aeb79acc402f8b9d5d0b3:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
