@@ -20,6 +20,7 @@ type Server struct {
 func (server *Server) Start() {
 
 	go generateLoad(context.TODO(), server)
+	go cleanup(context.TODO(), server)
 
 	engine := gin.Default()
 
@@ -111,6 +112,31 @@ func generateLoad(ctx context.Context, server *Server) {
 			err := server.Storage.Create(to)
 			if err != nil {
 				fmt.Println(err)
+			}
+		}
+	}
+}
+
+func cleanup(ctx context.Context, server *Server) {
+	ticker := time.NewTicker(3000 * time.Second)
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case <-ticker.C:
+			fmt.Println("cleaning data")
+
+			all, err := server.Storage.ListAll()
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+			for _, item := range all {
+				err = server.Storage.Delete(item)
+				if err != nil {
+					fmt.Println(err)
+				}
 			}
 		}
 	}
