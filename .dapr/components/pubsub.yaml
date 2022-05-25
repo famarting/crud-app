@@ -14,13 +14,14 @@ spec:
       name: redis
       key: redis-password
   - name: allowedTopics
-    value: "todos"
+    value: "todos,events"
   - name: publishingScopes
-    value: "crud-app=todos"
+    value: "crud-app=todos;consumer-app=events"
   - name: subscriptionScopes
-    value: "crud-app=;timeline-app=todos"
+    value: "crud-app=;timeline-app=todos;consumer-app=events"
   # # scopes??
-  # scopes:
-  # - crud-app
-  # - timeline-app
+scopes:
+  - crud-app
+  - timeline-app
+  - consumer-app
   

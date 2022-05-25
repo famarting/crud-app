@@ -31,8 +31,8 @@ func invokeBinding(ctx context.Context) {
 			fmt.Println("generating invoke binding errors")
 
 			_, err := getDaprClient().InvokeBinding(ctx, &dapr.InvokeBindingRequest{
-				Name:      "foo",
-				Operation: "baz",
+				Name:      "dummy-binding",
+				Operation: "dummy-operation",
 				Data:      []byte("ooo"),
 			})
 			if err != nil {
@@ -52,7 +52,7 @@ func invokeMethodErrors(ctx context.Context) {
 		case <-ticker.C:
 			fmt.Println("generating invoke method errors")
 
-			_, err := getDaprClient().InvokeMethod(ctx, "not-exists", "blah", "get")
+			_, err := getDaprClient().InvokeMethod(ctx, "dummy-app", "do-something", "get")
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -60,6 +60,7 @@ func invokeMethodErrors(ctx context.Context) {
 	}
 }
 
+// TODO add a function to publish events to an unauthorized pubsub
 func publishEvent(ctx context.Context) {
 	ticker := time.NewTicker(30 * time.Second)
 
@@ -70,9 +71,11 @@ func publishEvent(ctx context.Context) {
 		case <-ticker.C:
 			fmt.Println("generating publish event errors")
 
-			err := getDaprClient().PublishEvent(ctx, "foo", "baz", []byte("data"))
+			err := getDaprClient().PublishEvent(ctx, "dummy-pubsub", "dummy-topic", []byte("data"))
 			if err != nil {
 				fmt.Println(err)
+			} else {
+				fmt.Println("publish event succeeded")
 			}
 		}
 	}

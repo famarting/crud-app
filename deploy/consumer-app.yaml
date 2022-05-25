@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer-app
+spec:
+  selector:
+    matchLabels:
+      app: consumer-app
+  template:
+    metadata:
+      labels:
+        app: consumer-app
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "consumer-app"
+        dapr.io/app-port: "8080"
+        dapr.io/config: dapr-crud-app
+        dapr.io/app-protocol: grpc
+    spec:
+      containers:
+      - name: app
+        image: docker.io/famargon/consumer-12cf2b6a44aee014fafe9185282836fd:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "100m"

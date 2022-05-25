@@ -9,6 +9,7 @@ push:
 	ko publish ./cmd/timeline
 	ko publish ./cmd/datagen
 	ko publish ./cmd/errorgen
+	ko publish ./cmd/consumer
 
 rollout:
 	kubectl delete pod -l app=crud-app
