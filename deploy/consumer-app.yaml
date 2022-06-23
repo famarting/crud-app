@@ -4,6 +4,7 @@ kind: Deployment
 metadata:
   name: consumer-app
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: consumer-app
@@ -17,6 +18,7 @@ spec:
         dapr.io/app-port: "8080"
         dapr.io/config: dapr-crud-app
         dapr.io/app-protocol: grpc
+        dapr.io/log-as-json: "true"
     spec:
       containers:
       - name: app

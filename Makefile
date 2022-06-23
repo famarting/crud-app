@@ -33,7 +33,10 @@ deploy-zipkin:
 	kubectl expose deployment zipkin --type ClusterIP --port 9411
 
 deploy-redis:
-	helm upgrade --install redis bitnami/redis -n crud-app
+	helm upgrade --install redis bitnami/redis -n crud-app --set architecture=standalone
+
+deploy-redis-with-replication:
+	helm upgrade --install redis bitnami/redis -n crud-app --set replica.replicaCount=1
 
 .PHONY: deploy
 deploy:

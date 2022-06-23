@@ -15,6 +15,7 @@ spec:
         dapr.io/enabled: "true"
         dapr.io/app-id: "errorgen-app"
         dapr.io/config: dapr-crud-app
+        dapr.io/log-as-json: "true"
     spec:
       containers:
       - name: errorgen-app
