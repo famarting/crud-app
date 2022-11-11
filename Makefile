@@ -10,6 +10,9 @@ push:
 	ko publish ./cmd/datagen
 	ko publish ./cmd/errorgen
 	ko publish ./cmd/consumer
+	ko publish ./cmd/publisher
+	ko publish ./cmd/service-a
+	ko publish ./cmd/service-b
 
 rollout:
 	kubectl delete pod -l app=crud-app
@@ -32,19 +35,21 @@ deploy-zipkin:
 	kubectl create deployment zipkin --image openzipkin/zipkin
 	kubectl expose deployment zipkin --type ClusterIP --port 9411
 
+APP_NAMESPACE ?= crud-app
+
 deploy-redis:
-	helm upgrade --install redis bitnami/redis -n crud-app --set architecture=standalone
+	helm upgrade --install redis bitnami/redis -n ${APP_NAMESPACE} --set architecture=standalone
 
 deploy-redis-with-replication:
-	helm upgrade --install redis bitnami/redis -n crud-app --set replica.replicaCount=1
+	helm upgrade --install redis bitnami/redis -n ${APP_NAMESPACE} --set replica.replicaCount=1
 
 .PHONY: deploy
 deploy:
-	kubectl create namespace crud-app | true
+	kubectl create namespace ${APP_NAMESPACE} | true
 	$(MAKE) deploy-redis
-	kubectl apply -f .dapr/configuration.yaml -n crud-app
-	kubectl apply -f .dapr/components -n crud-app
-	kubectl apply -f deploy -n crud-app
+	kubectl apply -f .dapr/configuration.yaml -n ${APP_NAMESPACE}
+	kubectl apply -f .dapr/components -n ${APP_NAMESPACE}
+	kubectl apply -f deploy -n ${APP_NAMESPACE}
 
 apply:
 	kubectl apply -f .dapr/configuration.yaml -n crud-app

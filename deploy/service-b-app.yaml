@@ -2,24 +2,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: errorgen-app-deployment
+  name: service-b
 spec:
   selector:
     matchLabels:
-      app: errorgen-app
+      app: service-b
   template:
     metadata:
       labels:
-        app: errorgen-app
+        app: service-b
       annotations:
         dapr.io/enabled: "true"
-        dapr.io/app-id: "errorgen-app"
+        dapr.io/app-id: "service-b"
+        dapr.io/app-port: "8080"
         dapr.io/config: dapr-crud-app
-        dapr.io/log-as-json: "true"
+        dapr.io/log-as-json: "false"
+        dapr.io/enable-api-logging: "true"
+        dapr.io/log-level: "debug"
     spec:
       containers:
-      - name: errorgen-app
-        image: docker.io/famargon/errorgen-63e653f34f2b5c9ee4123a4e50fd8d16:latest
+      - name: service-b
+        image: docker.io/famargon/service-b-7eda1c2433ddc30eb307d61d424e0e3a:latest
         imagePullPolicy: Always
         resources:
           limits:

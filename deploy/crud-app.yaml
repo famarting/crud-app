@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: crud-app
+  name: crud-app-deployment
 spec:
   selector:
     matchLabels:
@@ -17,6 +17,7 @@ spec:
         dapr.io/app-port: "8080"
         dapr.io/config: dapr-crud-app
         dapr.io/sidecar-listen-addresses: "0.0.0.0"
+        dapr.io/log-as-json: "true"
     spec:
       containers:
       - name: crud-app

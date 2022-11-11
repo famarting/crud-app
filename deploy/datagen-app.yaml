@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: datagen-app
+  name: datagen-app-deployment
 spec:
   selector:
     matchLabels:
@@ -15,6 +15,11 @@ spec:
         dapr.io/enabled: "true"
         dapr.io/app-id: "datagen-app"
         dapr.io/config: dapr-crud-app
+        dapr.io/log-as-json: "true"
+        dapr.io/sidecar-cpu-request: "256m"
+        dapr.io/sidecar-memory-request: "64Mi"
+        dapr.io/sidecar-cpu-limit: "512m"
+        dapr.io/sidecar-memory-limit: "128Mi"
     spec:
       containers:
       - name: datagen-app
@@ -24,3 +29,6 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "100m"
+          requests:
+            memory: "64Mi"
+            cpu: "50m"

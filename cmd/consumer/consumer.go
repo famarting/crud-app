@@ -10,13 +10,14 @@ import (
 	"github.com/dapr/go-sdk/service/grpc"
 )
 
+var statestoreName string = "statestore"
 var pubsubName string = "pubsub"
 var pubsubTopic string = "events"
 
 var client dapr.Client
 
 func main() {
-	fmt.Println("starting event consumer app")
+	fmt.Println("starting event consumer app (consumes from events topic and uses statestore)")
 
 	s, err := grpc.NewService(":8080")
 	if err != nil {
@@ -30,7 +31,8 @@ func main() {
 		return false, nil
 	})
 
-	go publishEvent(context.TODO())
+	go generateReads(context.TODO())
+	go generateWrites(context.TODO())
 
 	err = s.Start()
 	if err != nil {
@@ -38,7 +40,7 @@ func main() {
 	}
 }
 
-func publishEvent(ctx context.Context) {
+func generateReads(ctx context.Context) {
 	ticker := time.NewTicker(10 * time.Second)
 
 	for {
@@ -46,9 +48,25 @@ func publishEvent(ctx context.Context) {
 		case <-ctx.Done():
 			return
 		case <-ticker.C:
-			fmt.Println("generating event")
+			fmt.Println("generating reads")
+			_, err := getDaprClient().GetState(ctx, statestoreName, "foo")
+			if err != nil {
+				fmt.Println(err)
+			}
+		}
+	}
+}
 
-			err := getDaprClient().PublishEvent(ctx, pubsubName, pubsubTopic, "data")
+func generateWrites(ctx context.Context) {
+	ticker := time.NewTicker(100 * time.Second)
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case <-ticker.C:
+			fmt.Println("generating writes")
+			err := getDaprClient().SaveState(ctx, statestoreName, "foo", []byte("baz"))
 			if err != nil {
 				fmt.Println(err)
 			}

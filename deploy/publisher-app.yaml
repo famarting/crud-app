@@ -2,24 +2,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: errorgen-app-deployment
+  name: publisher-app
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: errorgen-app
+      app: publisher-app
   template:
     metadata:
       labels:
-        app: errorgen-app
+        app: publisher-app
       annotations:
         dapr.io/enabled: "true"
-        dapr.io/app-id: "errorgen-app"
+        dapr.io/app-id: "publisher-app"
+        dapr.io/app-port: "8080"
         dapr.io/config: dapr-crud-app
+        dapr.io/app-protocol: grpc
         dapr.io/log-as-json: "true"
     spec:
       containers:
-      - name: errorgen-app
-        image: docker.io/famargon/errorgen-63e653f34f2b5c9ee4123a4e50fd8d16:latest
+      - name: app
+        image: docker.io/famargon/publisher-a4c0fe366e31cbd3ec239beea5bde24a:latest
         imagePullPolicy: Always
         resources:
           limits:

@@ -2,7 +2,6 @@ apiVersion: dapr.io/v1alpha1
 kind: Component
 metadata:
   name: pubsub
-  namespace: crud-app
 spec:
   type: pubsub.redis
   version: v1
@@ -16,7 +15,7 @@ spec:
   - name: allowedTopics
     value: "todos,events"
   - name: publishingScopes
-    value: "crud-app=todos;consumer-app=events"
+    value: "crud-app=todos;publisher-app=events;service-b=events"
   - name: subscriptionScopes
     value: "crud-app=;timeline-app=todos;consumer-app=events"
   # # scopes??
@@ -24,4 +23,6 @@ scopes:
   - crud-app
   - timeline-app
   - consumer-app
+  - publisher-app
+  - service-b
   
