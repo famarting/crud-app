@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"time"
 
@@ -54,7 +55,16 @@ func publishEvent(ctx context.Context) {
 }
 
 func echoHandler(ctx context.Context, in *common.InvocationEvent) (*common.Content, error) {
-	log.Printf("echo - ContentType:%s, Verb:%s, QueryString:%s, %+v", in.ContentType, in.Verb, in.QueryString, string(in.Data))
+	log.Printf("echo - ContentType:%s, Verb:%s, QueryString:%s, %+v \n", in.ContentType, in.Verb, in.QueryString, string(in.Data))
+
+	r := rand.Intn(100)
+	if r >= 45 {
+		log.Println("randomly sleeping")
+		// randomly sleep for more than 1 second, so the resiliency policy kicks in
+		time.Sleep(1500 * time.Millisecond)
+		log.Println("returning response")
+	}
+
 	// do something with the invocation here
 	return &common.Content{
 		Data:        in.Data,

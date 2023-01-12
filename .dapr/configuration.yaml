@@ -13,7 +13,10 @@ spec:
     allowedClockSkew: 15m
     enabled: true
     workloadCertTTL: 24h
-  api:
+  features:
+    - name: Resiliency
+      enabled: true
+  # api:
     # allowed:
     # - name: state
     #   version: v1

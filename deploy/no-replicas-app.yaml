@@ -2,25 +2,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: crud-app-deployment
+  name: zero-replicas-deployment
 spec:
+  replicas: 0
   selector:
     matchLabels:
-      app: crud-app
+      app: zero-replicas-app
   template:
     metadata:
       labels:
-        app: crud-app
+        app: zero-replicas-app
       annotations:
         dapr.io/enabled: "true"
-        dapr.io/app-id: "crud-app"
+        dapr.io/app-id: "zero-replicas-app"
         dapr.io/app-port: "8080"
         dapr.io/config: dapr-crud-app
         dapr.io/sidecar-listen-addresses: "0.0.0.0"
         dapr.io/log-as-json: "true"
-        dapr.io/sidecar-cpu-request: "584m"
-        dapr.io/sidecar-memory-request: "165Mi"
-        dapr.io/sidecar-memory-limit: "1056Mi"
     spec:
       containers:
       - name: crud-app
@@ -31,11 +29,9 @@ spec:
           - "-connStr"
           - "dapr"
         resources:
-          requests:
-            cpu: "4m"
-            memory: "32Mi"
           limits:
-            memory: "140Mi"
+            memory: "128Mi"
+            cpu: "100m"
         ports:
         - containerPort: 8080
 
@@ -43,10 +39,10 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: crud-app
+  name: zero-replicas-app
 spec:
   selector:
-    app: crud-app
+    app: zero-replicas-app
   type: ClusterIP
   ports:
   - name: http

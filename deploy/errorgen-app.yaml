@@ -16,12 +16,17 @@ spec:
         dapr.io/app-id: "errorgen-app"
         dapr.io/config: dapr-crud-app
         dapr.io/log-as-json: "true"
+        dapr.io/sidecar-cpu-request: "3m"
+        dapr.io/sidecar-memory-request: "16Mi"
+        dapr.io/sidecar-memory-limit: "37Mi"
     spec:
       containers:
       - name: errorgen-app
         image: docker.io/famargon/errorgen-63e653f34f2b5c9ee4123a4e50fd8d16:latest
         imagePullPolicy: Always
         resources:
+          requests:
+            cpu: "1m"
+            memory: "1Mi"
           limits:
-            memory: "128Mi"
-            cpu: "100m"
+            memory: "5Mi"

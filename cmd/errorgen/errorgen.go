@@ -21,7 +21,7 @@ func main() {
 }
 
 func invokeBinding(ctx context.Context) {
-	ticker := time.NewTicker(30 * time.Second)
+	ticker := time.NewTicker(20 * time.Second)
 
 	for {
 		select {
@@ -43,7 +43,7 @@ func invokeBinding(ctx context.Context) {
 }
 
 func invokeMethodErrors(ctx context.Context) {
-	ticker := time.NewTicker(30 * time.Second)
+	ticker := time.NewTicker(10 * time.Second)
 
 	for {
 		select {
@@ -82,7 +82,7 @@ func publishEvent(ctx context.Context) {
 }
 
 func invokeMethod(ctx context.Context) {
-	ticker := time.NewTicker(30 * time.Second)
+	ticker := time.NewTicker(15 * time.Second)
 
 	for {
 		select {

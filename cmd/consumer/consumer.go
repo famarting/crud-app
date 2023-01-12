@@ -27,7 +27,7 @@ func main() {
 		PubsubName: pubsubName,
 		Topic:      pubsubTopic,
 	}, func(ctx context.Context, e *common.TopicEvent) (retry bool, err error) {
-		fmt.Printf("event consumed %s %s", e.DataContentType, e.ID)
+		fmt.Printf("event consumed %s %s\n", e.DataContentType, e.ID)
 		return false, nil
 	})
 

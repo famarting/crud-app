@@ -17,7 +17,7 @@ spec:
   - name: publishingScopes
     value: "crud-app=todos;publisher-app=events;service-b=events"
   - name: subscriptionScopes
-    value: "crud-app=;timeline-app=todos;consumer-app=events"
+    value: "crud-app=;timeline-app=todos;consumer-app=events;service-c=events"
   # # scopes??
 scopes:
   - crud-app
@@ -25,4 +25,5 @@ scopes:
   - consumer-app
   - publisher-app
   - service-b
+  - service-c
   

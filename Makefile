@@ -13,6 +13,7 @@ push:
 	ko publish ./cmd/publisher
 	ko publish ./cmd/service-a
 	ko publish ./cmd/service-b
+	ko publish ./cmd/service-c
 
 rollout:
 	kubectl delete pod -l app=crud-app

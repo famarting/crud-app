@@ -16,19 +16,18 @@ spec:
         dapr.io/app-id: "datagen-app"
         dapr.io/config: dapr-crud-app
         dapr.io/log-as-json: "true"
-        dapr.io/sidecar-cpu-request: "256m"
-        dapr.io/sidecar-memory-request: "64Mi"
-        dapr.io/sidecar-cpu-limit: "512m"
-        dapr.io/sidecar-memory-limit: "128Mi"
+        dapr.io/sidecar-cpu-request: "1m"
+        dapr.io/sidecar-memory-request: "10Mi"
+        dapr.io/sidecar-memory-limit: "32Mi"
     spec:
       containers:
       - name: datagen-app
         image: docker.io/famargon/datagen-9b8bcb9dfb1aeb79acc402f8b9d5d0b3:latest
         imagePullPolicy: Always
         resources:
-          limits:
-            memory: "128Mi"
-            cpu: "100m"
           requests:
-            memory: "64Mi"
-            cpu: "50m"
+            cpu: "1m"
+            memory: "1Mi"
+          limits:
+            memory: "5Mi"
+

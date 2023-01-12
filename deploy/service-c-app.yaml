@@ -2,34 +2,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: publisher-app
+  name: service-c
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: publisher-app
+      app: service-c
   template:
     metadata:
       labels:
-        app: publisher-app
+        app: service-c
       annotations:
         dapr.io/enabled: "true"
-        dapr.io/app-id: "publisher-app"
+        dapr.io/app-id: "service-c"
         dapr.io/app-port: "8080"
         dapr.io/config: dapr-crud-app
-        dapr.io/app-protocol: grpc
-        dapr.io/log-as-json: "true"
+        dapr.io/log-as-json: "false"
+        dapr.io/enable-api-logging: "true"
+        dapr.io/log-level: "debug"
         dapr.io/sidecar-cpu-request: "1m"
-        dapr.io/sidecar-memory-request: "12Mi"
-        dapr.io/sidecar-memory-limit: "27Mi"
+        dapr.io/sidecar-memory-request: "11Mi"
+        dapr.io/sidecar-memory-limit: "24Mi"
     spec:
       containers:
-      - name: app
-        image: docker.io/famargon/publisher-a4c0fe366e31cbd3ec239beea5bde24a:latest
+      - name: service-c
+        image: docker.io/famargon/service-c-937d491fd6283fe1f05c1ba4e2771ba0:latest
         imagePullPolicy: Always
         resources:
           requests:
             cpu: "1m"
             memory: "1Mi"
           limits:
-            memory: "5Mi"
+            memory: "4Mi"

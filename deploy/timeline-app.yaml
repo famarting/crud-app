@@ -18,15 +18,20 @@ spec:
         dapr.io/config: dapr-crud-app
         dapr.io/sidecar-listen-addresses: "0.0.0.0"
         dapr.io/log-as-json: "true"
+        dapr.io/sidecar-cpu-request: "1m"
+        dapr.io/sidecar-memory-request: "11Mi"
+        dapr.io/sidecar-memory-limit: "32Mi"
     spec:
       containers:
       - name: timeline-app
         image: docker.io/famargon/timeline-817bcff8f93d81a39bbda2d411cf379f:latest
         imagePullPolicy: Always
         resources:
+          requests:
+            cpu: "1m"
+            memory: "3Mi"
           limits:
-            memory: "128Mi"
-            cpu: "100m"
+            memory: "7Mi"
         ports:
         - containerPort: 8080
 
