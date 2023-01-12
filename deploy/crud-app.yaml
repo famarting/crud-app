@@ -18,9 +18,6 @@ spec:
         dapr.io/config: dapr-crud-app
         dapr.io/sidecar-listen-addresses: "0.0.0.0"
         dapr.io/log-as-json: "true"
-        dapr.io/sidecar-cpu-request: "584m"
-        dapr.io/sidecar-memory-request: "165Mi"
-        dapr.io/sidecar-memory-limit: "1056Mi"
     spec:
       containers:
       - name: crud-app
@@ -30,12 +27,6 @@ spec:
           - "serve"
           - "-connStr"
           - "dapr"
-        resources:
-          requests:
-            cpu: "4m"
-            memory: "32Mi"
-          limits:
-            memory: "140Mi"
         ports:
         - containerPort: 8080
 

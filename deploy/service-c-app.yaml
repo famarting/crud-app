@@ -19,17 +19,8 @@ spec:
         dapr.io/log-as-json: "false"
         dapr.io/enable-api-logging: "true"
         dapr.io/log-level: "debug"
-        dapr.io/sidecar-cpu-request: "1m"
-        dapr.io/sidecar-memory-request: "11Mi"
-        dapr.io/sidecar-memory-limit: "24Mi"
     spec:
       containers:
       - name: service-c
         image: docker.io/famargon/service-c-937d491fd6283fe1f05c1ba4e2771ba0:latest
         imagePullPolicy: Always
-        resources:
-          requests:
-            cpu: "1m"
-            memory: "1Mi"
-          limits:
-            memory: "4Mi"
