@@ -1,15 +1,11 @@
-# TODO list demo app
+# Example Dapr applications
+
+This repo contains a set of simple golang applications that use Dapr and show some of it's various features.
+
+> Pre-requisites: You'll need a Kubernetes cluster.
 
 ## Setup
-
 ```
-skind start
 dapr init -k
-kubectl create namespace crud-app
-make deploy-redis deploy-zipkin
-kubectl apply -f .dapr/configuration.yaml
-kubectl apply -f .dapr/components
-kubectl apply -f deploy
+make deploy
 ```
-
-https://docs.dapr.io/getting-started/configure-state-pubsub/
