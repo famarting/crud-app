@@ -7,7 +7,7 @@ spec:
   version: v1
   metadata:
   - name: redisHost
-    value: redis-master:6379
+    value: redis-master.crud-app:6379
   - name: redisPassword
     secretKeyRef:
       name: redis

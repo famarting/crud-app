@@ -6,13 +6,17 @@ import (
 )
 
 type InMemoryStorage struct {
-	all []*todos.Todo
+	all      []*todos.Todo
+	maxItems int
 }
 
 var impl TodosStorage = &InMemoryStorage{}
 
 func (s *InMemoryStorage) Create(todo *todos.Todo) error {
 	todo.Id = uuid.New().String()
+	if len(s.all) >= s.maxItems {
+		s.all = s.all[1:]
+	}
 	s.all = append(s.all, todo)
 	return nil
 }
@@ -29,8 +33,9 @@ func (s *InMemoryStorage) ListAll() ([]*todos.Todo, error) {
 	return s.all, nil
 }
 
-func NewInMemoryStorage() *InMemoryStorage {
+func NewInMemoryStorage(maxItems int) *InMemoryStorage {
 	return &InMemoryStorage{
-		all: []*todos.Todo{},
+		all:      []*todos.Todo{},
+		maxItems: maxItems,
 	}
 }

@@ -11,7 +11,8 @@ import (
 )
 
 type DaprStorage struct {
-	client dapr.Client
+	client   dapr.Client
+	maxItems int
 }
 
 var statestoreName string = "statestore"
@@ -31,6 +32,10 @@ func (s *DaprStorage) Create(todo *todos.Todo) error {
 	allTodos, err := s.getIndexState()
 	if err != nil {
 		return err
+	}
+
+	if len(allTodos) >= s.maxItems {
+		allTodos = allTodos[1:]
 	}
 
 	allTodos = append(allTodos, todo.Id)
@@ -95,7 +100,7 @@ func (s *DaprStorage) Delete(todo *todos.Todo) error {
 		return err
 	}
 
-	var newtodos []string = make([]string, len(allTodos)-1)
+	var newtodos []string = make([]string, 0)
 	for _, t := range allTodos {
 		if t != todo.Id {
 			newtodos = append(newtodos, t)
@@ -107,6 +112,7 @@ func (s *DaprStorage) Delete(todo *todos.Todo) error {
 		return err
 	}
 
+	fmt.Printf("deleting todo: %v\n", todo.Id)
 	err = s.newDaprClient().DeleteState(context.Background(), statestoreName, todo.Id)
 	if err != nil {
 		return err
@@ -164,6 +170,6 @@ func (s *DaprStorage) newDaprClient() dapr.Client {
 	return s.client
 }
 
-func NewDaprStorage() *DaprStorage {
-	return &DaprStorage{}
+func NewDaprStorage(maxItems int) *DaprStorage {
+	return &DaprStorage{maxItems: maxItems}
 }

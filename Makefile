@@ -53,6 +53,6 @@ deploy:
 	kubectl apply -f deploy -n ${APP_NAMESPACE}
 
 apply:
-	kubectl apply -f .dapr/configuration.yaml -n crud-app
-	kubectl apply -f .dapr/components -n crud-app
-	kubectl apply -f deploy -n crud-app
+	kubectl apply -f .dapr/configuration.yaml -n ${APP_NAMESPACE}
+	kubectl apply -f .dapr/components -n ${APP_NAMESPACE}
+	kubectl apply -f deploy -n ${APP_NAMESPACE}
