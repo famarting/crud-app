@@ -19,13 +19,24 @@ func init() {
 }
 
 type MongoStorage struct {
-	coll *mgm.Collection
+	coll     *mgm.Collection
+	maxItems int
 }
 
 var mongoImpl TodosStorage = &MongoStorage{}
 
 func (s *MongoStorage) Create(todo *todos.Todo) error {
 	todo.Id = uuid.New().String()
+	count, err := s.coll.CountDocuments(context.Background(), bson.D{}, nil)
+	if err != nil {
+		return err
+	}
+	if count >= int64(s.maxItems) {
+		// set the sort to -1 to sort descending and get the last item for deletion
+		deleteOptions := &options.FindOneAndDeleteOptions{}
+		deleteOptions = deleteOptions.SetSort(bson.D{{"_id", -1}})
+		s.coll.FindOneAndDelete(context.Background(), bson.D{}, deleteOptions)
+	}
 	return s.coll.Create(todo)
 }
 
@@ -50,13 +61,14 @@ func (s *MongoStorage) ListAll() ([]*todos.Todo, error) {
 	return all, nil
 }
 
-func NewMongoStorage(connStr string) *MongoStorage {
+func NewMongoStorage(connStr string, maxItems int) *MongoStorage {
 	err := mgm.SetDefaultConfig(nil, "mgm_lab", options.Client().ApplyURI(connStr))
 	if err != nil {
 		panic(err)
 	}
 
 	return &MongoStorage{
-		coll: mgm.Coll(&todos.Todo{}),
+		coll:     mgm.Coll(&todos.Todo{}),
+		maxItems: maxItems,
 	}
 }

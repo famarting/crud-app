@@ -27,6 +27,10 @@ spec:
           - "serve"
           - "-connStr"
           - "dapr"
+          - "-maxItems"
+          - "20"
+          - "-cleanupIntervalSeconds"
+          - "600"
         ports:
         - containerPort: 8080
 

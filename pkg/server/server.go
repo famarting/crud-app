@@ -13,8 +13,9 @@ import (
 )
 
 type Server struct {
-	Port    int
-	Storage s.TodosStorage
+	Port                   int
+	Storage                s.TodosStorage
+	CleanupIntervalSeconds int
 }
 
 func (server *Server) Start() {
@@ -118,7 +119,7 @@ func generateLoad(ctx context.Context, server *Server) {
 }
 
 func cleanup(ctx context.Context, server *Server) {
-	ticker := time.NewTicker(3000 * time.Second)
+	ticker := time.NewTicker(time.Duration(server.CleanupIntervalSeconds) * time.Second)
 
 	for {
 		select {
