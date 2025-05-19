@@ -13,6 +13,8 @@ spec:
     allowedClockSkew: 15m
     enabled: true
     workloadCertTTL: 24h
+    controlPlaneTrustDomain: "cluster.local"
+    sentryAddress: dapr-sentry.dapr-system.svc.cluster.local:443
   features:
     - name: Resiliency
       enabled: true
